@@ -6,13 +6,17 @@ spring:
     active: dev
   main:
     allow-circular-references: true
+    #数据库连接信息
   datasource:
-    druid:
+#    druid:
+      #      driver-class-name: com.mysql.cj.jdbc.Driver
+      #      url: jdbc:mysql://localhost:3306/sky_take_out
+      #      username: Encounter
+      #      password: 20020628
       driver-class-name: ${sky.datasource.driver-class-name}
       url: jdbc:mysql://${sky.datasource.host}:${sky.datasource.port}/${sky.datasource.database}?serverTimezone=Asia/Shanghai&useUnicode=true&characterEncoding=utf-8&zeroDateTimeBehavior=convertToNull&useSSL=false&allowPublicKeyRetrieval=true
       username: ${sky.datasource.username}
       password: ${sky.datasource.password}
-
 mybatis:
   #mapper配置文件
   mapper-locations: classpath:mapper/*.xml
