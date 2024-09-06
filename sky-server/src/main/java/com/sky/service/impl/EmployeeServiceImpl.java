@@ -119,4 +119,28 @@ public class EmployeeServiceImpl implements EmployeeService
                 return new PageResult(page.getTotal(), page.getResult());
             }
         
+        /**
+         * 开始或停止
+         *
+         * @param status 地位
+         * @param id     身份证
+         */
+        @Override
+        public void startOrStop(Integer status, Long id)
+            {
+                //两种创建对象的编程风格，效果一样
+                Employee employee=new Employee();
+                employee.setId(id);
+                employee.setStatus(status);
+                
+                employee.setUpdateTime(LocalDateTime.now());
+                employee.setUpdateUser(BaseContext.getCurrentId());
+                /*Employee employee = Employee.builder()
+                        .id(id)
+                        .status(status)
+                        .build();*/
+                
+                employeeMapper.update(employee);
+            }
+        
     }

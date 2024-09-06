@@ -105,9 +105,27 @@ public class EmployeeController
          */
         @GetMapping("/page")
         @ApiOperation("员工分页查询")
-        public Result<PageResult> page(EmployeePageQueryDTO employeePageQueryDTO){
-            log.info("员工分页查询，参数为：{}", employeePageQueryDTO);
-            PageResult pageResult = employeeService.pageQuery(employeePageQueryDTO);//后续定义
-            return Result.success(pageResult);
-        }
+        public Result<PageResult> page(EmployeePageQueryDTO employeePageQueryDTO)
+            {
+                log.info("员工分页查询，参数为：{}", employeePageQueryDTO);
+                PageResult pageResult = employeeService.pageQuery(employeePageQueryDTO);//后续定义
+                return Result.success(pageResult);
+            }
+        
+        
+        /**
+         * 启用或禁用
+         *
+         * @param status 状态
+         * @param id     要更改的id
+         * @return {@link Result }
+         */
+        @PostMapping("/status/{status}")
+        @ApiOperation("启用或禁用 ")
+        public Result startOrStop(@PathVariable Integer status, Long id)
+            {
+                log.info("启用或禁用，状态：{}，id：{}", status, id);
+                employeeService.startOrStop(status,id);
+                return Result.success();
+            }
     }
