@@ -125,7 +125,36 @@ public class EmployeeController
         public Result startOrStop(@PathVariable Integer status, Long id)
             {
                 log.info("启用或禁用，状态：{}，id：{}", status, id);
-                employeeService.startOrStop(status,id);
+                employeeService.startOrStop(status, id);
+                return Result.success();
+            }
+        
+        /**
+         * 按 ID 获取
+         *
+         * @param id 身份证
+         * @return {@link Result }<{@link Employee }>
+         */
+        @GetMapping("/{id}")
+        @ApiOperation("根据id查询员工")
+        public Result<Employee> getById(@PathVariable Long id)
+            {
+                log.info("要查询的id：{}", id);
+                return Result.success(employeeService.getById(id));
+            }
+        
+        /**
+         * 更新
+         *
+         * @param employeeDTO 员工 DTO
+         * @return {@link Result }
+         */
+        @PutMapping
+        @ApiOperation("编辑员工信息")
+        public Result update(@RequestBody EmployeeDTO employeeDTO)
+            {
+                log.info("编辑员工信息：{}", employeeDTO);
+                employeeService.update(employeeDTO);
                 return Result.success();
             }
     }

@@ -129,7 +129,7 @@ public class EmployeeServiceImpl implements EmployeeService
         public void startOrStop(Integer status, Long id)
             {
                 //两种创建对象的编程风格，效果一样
-                Employee employee=new Employee();
+                Employee employee = new Employee();
                 employee.setId(id);
                 employee.setStatus(status);
                 
@@ -140,6 +140,40 @@ public class EmployeeServiceImpl implements EmployeeService
                         .status(status)
                         .build();*/
                 
+                employeeMapper.update(employee);
+            }
+        
+        /**
+         * 按 ID 获取
+         *
+         * @param id 身份证
+         * @return {@link Employee }
+         */
+        @Override
+        public Employee getById(Long id)
+            {
+                Employee employee = employeeMapper.getById(id);
+                employee.setPassword("****");
+                return employee;
+            }
+        
+        /**
+         * 更新
+         *
+         * @param employeeDTO 员工 DTO
+         */
+        @Override
+        public void update(EmployeeDTO employeeDTO)
+            {
+                Employee employee = new Employee();
+                //对象属性拷贝
+                BeanUtils.copyProperties(employeeDTO, employee);
+                
+                //修改者信息
+                employee.setUpdateTime(LocalDateTime.now());
+                employee.setUpdateUser(BaseContext.getCurrentId());
+                
+                //调用mapper
                 employeeMapper.update(employee);
             }
         

@@ -39,4 +39,14 @@ public interface EmployeeService {
      * @param id     身份证
      */
     void startOrStop(Integer status, Long id);
+    
+    /**
+     * 按 ID 获取
+     *
+     * @param id 身份证
+     * @return {@link Employee }
+     */
+    Employee getById(Long id);
+    
+    void update(EmployeeDTO employeeDTO);
 }
