@@ -1,16 +1,20 @@
 package com.sky.service.impl;
 
+import com.github.pagehelper.Page;
+import com.github.pagehelper.PageHelper;
 import com.sky.constant.MessageConstant;
 import com.sky.constant.PasswordConstant;
 import com.sky.constant.StatusConstant;
 import com.sky.context.BaseContext;
 import com.sky.dto.EmployeeDTO;
 import com.sky.dto.EmployeeLoginDTO;
+import com.sky.dto.EmployeePageQueryDTO;
 import com.sky.entity.Employee;
 import com.sky.exception.AccountLockedException;
 import com.sky.exception.AccountNotFoundException;
 import com.sky.exception.PasswordErrorException;
 import com.sky.mapper.EmployeeMapper;
+import com.sky.result.PageResult;
 import com.sky.service.EmployeeService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,10 +31,10 @@ public class EmployeeServiceImpl implements EmployeeService
         private EmployeeMapper employeeMapper;
         
         /**
-         * 员工登录
+         * 登录
          *
-         * @param employeeLoginDTO
-         * @return
+         * @param employeeLoginDTO 员工登录 DTO
+         * @return {@link Employee }
          */
         public Employee login(EmployeeLoginDTO employeeLoginDTO)
             {
@@ -66,6 +70,11 @@ public class EmployeeServiceImpl implements EmployeeService
                 return employee;
             }
         
+        /**
+         * 新增员工
+         *
+         * @param employeeDTO 员工 DTO
+         */
         @Override
         public void save(EmployeeDTO employeeDTO)
             {
@@ -86,13 +95,28 @@ public class EmployeeServiceImpl implements EmployeeService
                 employee.setUpdateTime(LocalDateTime.now());
                 
                 //当前操作人id及修改人id
-                //TODO Encounter 2024/09/05 21:12 后期改为当前登录用户的值
-                
                 employee.setCreateUser(BaseContext.getCurrentId());
                 employee.setUpdateUser(BaseContext.getCurrentId());
                 
                 employeeMapper.insert(employee);
                 
+            }
+        
+        /**
+         * 页面查询
+         *
+         * @param employeePageQueryDTO 员工页面查询 DTO
+         * @return {@link PageResult }
+         */
+        @Override
+        public PageResult pageQuery(EmployeePageQueryDTO employeePageQueryDTO)
+            {
+                //开始分页
+                //TODO Encounter 2024/09/06 20:06 分页功能不生效
+                PageHelper.startPage(employeePageQueryDTO.getPage(), employeePageQueryDTO.getPageSize());
+                
+                Page<Employee> page = employeeMapper.pageQuery(employeePageQueryDTO);
+                return new PageResult(page.getTotal(), page.getResult());
             }
         
     }
