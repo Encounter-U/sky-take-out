@@ -91,12 +91,12 @@ public class EmployeeServiceImpl implements EmployeeService
                 employee.setPassword(DigestUtils.md5DigestAsHex(PasswordConstant.DEFAULT_PASSWORD.getBytes()));
                 
                 //创建时间及当前修改时间
-                employee.setCreateTime(LocalDateTime.now());
-                employee.setUpdateTime(LocalDateTime.now());
+                /*employee.setCreateTime(LocalDateTime.now());
+                employee.setUpdateTime(LocalDateTime.now());*/
                 
                 //当前操作人id及修改人id
-                employee.setCreateUser(BaseContext.getCurrentId());
-                employee.setUpdateUser(BaseContext.getCurrentId());
+                /*employee.setCreateUser(BaseContext.getCurrentId());
+                employee.setUpdateUser(BaseContext.getCurrentId());*/
                 
                 employeeMapper.insert(employee);
                 
@@ -122,8 +122,8 @@ public class EmployeeServiceImpl implements EmployeeService
         /**
          * 开始或停止
          *
-         * @param status 地位
-         * @param id     身份证
+         * @param status 状态
+         * @param id     员工ID
          */
         @Override
         public void startOrStop(Integer status, Long id)
@@ -133,8 +133,8 @@ public class EmployeeServiceImpl implements EmployeeService
                 employee.setId(id);
                 employee.setStatus(status);
                 
-                employee.setUpdateTime(LocalDateTime.now());
-                employee.setUpdateUser(BaseContext.getCurrentId());
+                /*employee.setUpdateTime(LocalDateTime.now());
+                employee.setUpdateUser(BaseContext.getCurrentId());*/
                 /*Employee employee = Employee.builder()
                         .id(id)
                         .status(status)
@@ -146,7 +146,7 @@ public class EmployeeServiceImpl implements EmployeeService
         /**
          * 按 ID 获取
          *
-         * @param id 身份证
+         * @param id 员工ID
          * @return {@link Employee }
          */
         @Override
