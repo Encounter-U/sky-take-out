@@ -19,13 +19,14 @@ public class AliOssUtil {
     private String accessKeyId;
     private String accessKeySecret;
     private String bucketName;
-
+    
+    
     /**
      * 文件上传
      *
-     * @param bytes
-     * @param objectName
-     * @return
+     * @param bytes      字节
+     * @param objectName 文件名称
+     * @return {@link String }
      */
     public String upload(byte[] bytes, String objectName) {
 

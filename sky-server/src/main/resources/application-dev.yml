@@ -6,3 +6,8 @@ sky:
     database: sky_take_out
     username: Encounter
     password: 20020628
+  alioss:
+    endpoint: oss-cn-hangzhou.aliyuncs.com
+    access-key-id: LTAI5tQnFyndQhQrXZn33orF
+    access-key-secret: LNv4fY2RcICPLwbdvGbWXxN68aOeOy
+    bucket-name: encounter-sky-take-out
