@@ -18,4 +18,11 @@ public interface DishFlavorMapper
          * @param flavors 口味
          */
         void insertBatch(List<DishFlavor> flavors);
+        
+        /**
+         * 按 Dish ID 批量删除
+         *
+         * @param dishIds Dish ID
+         */
+        void deleteByDishIds(List<Long> dishIds);
     }

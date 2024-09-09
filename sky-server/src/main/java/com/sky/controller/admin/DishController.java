@@ -6,11 +6,14 @@ import com.sky.entity.Dish;
 import com.sky.result.PageResult;
 import com.sky.result.Result;
 import com.sky.service.DishService;
+import com.sky.vo.DishVO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 /**
  * @author Encounter
@@ -55,5 +58,29 @@ public class DishController
                 PageResult pageResult = dishService.pageQuery(dishPageQueryDTO);
                 
                 return Result.success(pageResult);
+            }
+        
+        /**
+         * 删除
+         *
+         * @param ids 要删除的id集合
+         * @return {@link Result }
+         */
+        @DeleteMapping
+        @ApiOperation("删除菜品")
+        public Result delete(@RequestParam List<Long> ids)
+            {
+                log.info("要删除的id集合：{}", ids);
+                dishService.deleteBatch(ids);
+                return Result.success();
+            }
+        
+        @GetMapping("/{id}")
+        @ApiOperation("根据id查询dish")
+        public Result<DishVO> getById(@PathVariable Long id)
+            {
+                log.info("要查询的id：{}", id);
+                DishVO dishVO = dishService.getById(id);
+                return Result.success(dishVO);
             }
     }

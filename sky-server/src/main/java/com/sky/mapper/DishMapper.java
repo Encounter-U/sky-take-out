@@ -9,6 +9,8 @@ import com.sky.vo.DishVO;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
 
+import java.util.List;
+
 /**
  * @author Encounter
  * @date 2024/09/06 21:19<br/>
@@ -41,4 +43,22 @@ public interface DishMapper
          * @return {@link Page }<{@link Dish }>
          */
         Page<DishVO> pageQuery(DishPageQueryDTO dishPageQueryDTO);
+        
+        /**
+         * 删除批处理
+         *
+         * @param ids IDS
+         */
+        void deleteBatch(List<Long> ids);
+        
+        /**
+         * 按 ID 获取Dish
+         *
+         * @param id Dish ID
+         * @return {@link Dish }
+         */
+        @Select("select * from dish where id = #{id}")
+        Dish getById(Long id);
+        
+        
     }

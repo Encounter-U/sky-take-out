@@ -34,4 +34,11 @@
             </if>
         </where>
     </select>
+
+    <delete id="deleteBatch">
+        delete from dish where id in
+        <foreach item="id" collection="collection" open="(" separator="," close=")">
+        #{id}
+        </foreach>
+    </delete>
 </mapper>
