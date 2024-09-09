@@ -75,6 +75,12 @@ public class DishController
                 return Result.success();
             }
         
+        /**
+         * 按 ID 获取Dish
+         *
+         * @param id Dish ID
+         * @return {@link Result }<{@link DishVO }>
+         */
         @GetMapping("/{id}")
         @ApiOperation("根据id查询dish")
         public Result<DishVO> getById(@PathVariable Long id)
@@ -82,5 +88,20 @@ public class DishController
                 log.info("要查询的id：{}", id);
                 DishVO dishVO = dishService.getById(id);
                 return Result.success(dishVO);
+            }
+        
+        /**
+         * 修改Dish
+         *
+         * @param dishDTO dish dto
+         * @return {@link Result }
+         */
+        @PutMapping
+        @ApiOperation("修改菜品信息")
+        public Result update(@RequestBody DishDTO dishDTO)
+            {
+                log.info("要修改的信息：{}", dishDTO);
+                dishService.update(dishDTO);
+                return Result.success();
             }
     }
