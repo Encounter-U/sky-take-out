@@ -112,7 +112,6 @@ public class EmployeeServiceImpl implements EmployeeService
         public PageResult pageQuery(EmployeePageQueryDTO employeePageQueryDTO)
             {
                 //开始分页
-                //TODO Encounter 2024/09/06 20:06 分页功能不生效
                 PageHelper.startPage(employeePageQueryDTO.getPage(), employeePageQueryDTO.getPageSize());
                 
                 Page<Employee> page = employeeMapper.pageQuery(employeePageQueryDTO);

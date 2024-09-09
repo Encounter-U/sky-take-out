@@ -29,8 +29,9 @@ public class CategoryController {
     
     /**
      * 新增分类
-     * @param categoryDTO
-     * @return
+     *
+     * @param categoryDTO 类别 DTO
+     * @return {@link Result }<{@link String }>
      */
     @PostMapping
     @ApiOperation("新增分类")
@@ -42,8 +43,9 @@ public class CategoryController {
     
     /**
      * 分类分页查询
-     * @param categoryPageQueryDTO
-     * @return
+     *
+     * @param categoryPageQueryDTO 分类页查询 DTO
+     * @return {@link Result }<{@link PageResult }>
      */
     @GetMapping("/page")
     @ApiOperation("分类分页查询")
@@ -55,8 +57,9 @@ public class CategoryController {
     
     /**
      * 删除分类
-     * @param id
-     * @return
+     *
+     * @param id 身份证
+     * @return {@link Result }<{@link String }>
      */
     @DeleteMapping
     @ApiOperation("删除分类")
@@ -68,8 +71,9 @@ public class CategoryController {
     
     /**
      * 修改分类
-     * @param categoryDTO
-     * @return
+     *
+     * @param categoryDTO 类别 DTO
+     * @return {@link Result }<{@link String }>
      */
     @PutMapping
     @ApiOperation("修改分类")
@@ -80,9 +84,10 @@ public class CategoryController {
     
     /**
      * 启用、禁用分类
-     * @param status
-     * @param id
-     * @return
+     *
+     * @param status 状态
+     * @param id     分类ID
+     * @return {@link Result }<{@link String }>
      */
     @PostMapping("/status/{status}")
     @ApiOperation("启用禁用分类")
@@ -93,8 +98,9 @@ public class CategoryController {
     
     /**
      * 根据类型查询分类
-     * @param type
-     * @return
+     *
+     * @param type 类型
+     * @return {@link Result }<{@link List }<{@link Category }>>
      */
     @GetMapping("/list")
     @ApiOperation("根据类型查询分类")
