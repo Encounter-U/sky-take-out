@@ -8,6 +8,7 @@ sky:
     password: 20020628
   alioss:
     endpoint: oss-cn-hangzhou.aliyuncs.com
-    access-key-id: LTAI5tQnFyndQhQrXZn33orF
-    access-key-secret: LNv4fY2RcICPLwbdvGbWXxN68aOeOy
+    #在环境变量中配置
+    access-key-id: ${OSS_ACCESS_KEY_ID}
+    access-key-secret: ${OSS_ACCESS_KEY_SECRET}
     bucket-name: encounter-sky-take-out
