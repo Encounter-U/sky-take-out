@@ -15,7 +15,7 @@ import java.util.List;
 public interface DishService
     {
         /**
-         * Save with flavor （保存风味）
+         * 新增菜品 添加口味
          *
          * @param dishDTO dish dto
          */
