@@ -29,6 +29,15 @@ spring:
     pathmatch:
       matching-strategy: ant_path_matcher
 
+  data:
+    redis:
+      host: ${sky.redis.host}
+      port: ${sky.redis.port}
+      password: ${sky.redis.password}
+      #可以不配置这一项，默认0
+      database: ${sky.redis.database}
+
+
 mybatis:
   #mapper配置文件
   mapper-locations: classpath:mapper/*.xml
