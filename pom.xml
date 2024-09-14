@@ -24,12 +24,12 @@
         <commons.lang>2.6</commons.lang>
         <druid>1.2.1</druid>
         <pagehelper>1.4.7</pagehelper>
-        <aliyun.sdk.oss>3.10.2</aliyun.sdk.oss>
+        <aliyun.sdk.oss>3.17.4</aliyun.sdk.oss>
         <knife4j>3.0.3</knife4j>
         <aspectj>1.9.4</aspectj>
         <jjwt>0.9.1</jjwt>
         <jaxb-api>2.3.1</jaxb-api>
-        <poi>3.16</poi>
+        <poi>5.3.0</poi>
     </properties>
     <dependencyManagement>
         <dependencies>

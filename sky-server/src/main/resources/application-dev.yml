@@ -18,3 +18,7 @@ sky:
     password: 20020628
     #可以不配置这一项，默认0
     database: 10
+  wechat:
+    #在系统环境变量配置
+    appid: ${WECHAT_APPID}
+    secret: ${WECHAT_SECRET}
