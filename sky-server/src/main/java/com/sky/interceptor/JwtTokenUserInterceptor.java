@@ -31,7 +31,7 @@ public class JwtTokenUserInterceptor implements HandlerInterceptor
          * @param request  请求
          * @param response 响应
          * @param handler  处理器
-         * @return boolean
+         * @return boolean true 放行  false 拦截
          * @throws Exception 例外
          */
         @Override
@@ -61,6 +61,7 @@ public class JwtTokenUserInterceptor implements HandlerInterceptor
                 catch (Exception ex)
                     {
                         //4、不通过，响应401状态码
+//                        log.info("异常，{}", ex.getMessage());
                         response.setStatus(401);
                         return false;
                     }

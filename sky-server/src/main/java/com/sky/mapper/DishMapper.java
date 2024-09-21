@@ -67,4 +67,15 @@ public interface DishMapper
          */
         @AutoFill(OperationType.UPDATE)
         void update(Dish dish);
+        
+        /**
+         * 菜品查询
+         *
+         * @param dish 菜
+         * @return {@link List }<{@link Dish }>
+         */
+        @Select("select id, name, category_id, price, image, description, status, " +
+                "create_time, update_time, create_user, update_user from dish " +
+                "where category_id = #{categoryId} and status = #{status}")
+        List<Dish> list(Dish dish);
     }

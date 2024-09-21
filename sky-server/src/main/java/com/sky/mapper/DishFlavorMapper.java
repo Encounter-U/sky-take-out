@@ -2,6 +2,7 @@ package com.sky.mapper;
 
 import com.sky.entity.DishFlavor;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Select;
 
 import java.util.List;
 
@@ -34,4 +35,12 @@ public interface DishFlavorMapper
          */
         List<DishFlavor> getDishFlavorById(Long dishId);
         
+        /**
+         * 按菜品 ID 获取
+         *
+         * @param dishId 菜品 ID
+         * @return {@link List }<{@link DishFlavor }>
+         */
+        @Select("select * from dish_flavor where dish_id = #{dishId}")
+        List<DishFlavor> getByDishId(Long dishId);
     }

@@ -64,6 +64,7 @@ sky:
     admin-token-name: token
     user-secret-key: Encounter
     user-token-name: authentication
+    user-ttl: 7200000
   alioss:
     endpoint: ${sky.alioss.endpoint}
     access-key-id: ${sky.alioss.access-key-id}
