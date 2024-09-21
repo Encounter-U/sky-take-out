@@ -13,7 +13,8 @@ sky:
     access-key-secret: ${OSS_ACCESS_KEY_SECRET}
     bucket-name: encounter-sky-take-out
   redis:
-    host: localhost
+    #填写个人远程服务器地址或本地localhost
+    host: ${SERVER_IP}
     port: 6379
     password: 20020628
     #可以不配置这一项，默认0

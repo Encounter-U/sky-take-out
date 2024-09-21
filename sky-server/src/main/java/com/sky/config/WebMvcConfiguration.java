@@ -53,7 +53,7 @@ public class WebMvcConfiguration implements WebMvcConfigurer
                 registry.addInterceptor(jwtTokenUserInterceptor)
                         .addPathPatterns("/user/**")
                         .excludePathPatterns("/user/user/login")
-                        .excludePathPatterns("/user/user/status");
+                        .excludePathPatterns("/user/shop/status");
             }
         
         /**
@@ -61,6 +61,7 @@ public class WebMvcConfiguration implements WebMvcConfigurer
          *
          * @return {@link Docket }
          */
+        //TODO Encounter 2024/09/21 20:24 knife4j因版本问题不生效，暂未解决，可用Apifox代替
         @Bean
         public Docket docketAdmin()
             {
