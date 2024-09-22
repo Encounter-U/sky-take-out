@@ -11,24 +11,22 @@
     </select>
 
     <insert id="save">
-        insert into setmeal_dish(
-        setmeal_id,
-        dish_id,
+        insert into setmeal_dish(setmeal_id,
+                                 dish_id,
         <if test="name != null and name != ''">
             name,
         </if>
         <if test="price != null">
             price,
         </if>
-        copies) values(
-        setmeal_id = #{setmealId},
-        dish_id = #{dishId},
+        copies) values(#{setmealId},
+                       #{dishId},
         <if test="name != null and name != ''">
-            name = #{name},
+            #{name},
         </if>
         <if test="price != null">
-            price = #{price},
+            #{price},
         </if>
-        copies = #{copies})
+        #{copies})
     </insert>
 </mapper>
