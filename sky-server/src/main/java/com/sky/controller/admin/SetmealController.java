@@ -35,7 +35,7 @@ public class SetmealController
         @ApiOperation("新增套餐")
         public Result save(@RequestBody SetmealDTO setmealDTO)
             {
-                log.info("新增套餐：{}",setmealDTO);
+                log.info("新增套餐：{}", setmealDTO);
                 setmealService.save(setmealDTO);
                 
                 return Result.success();
@@ -51,8 +51,17 @@ public class SetmealController
         @ApiOperation("分页查询")
         public Result<PageResult> page(SetmealPageQueryDTO setmealPageQueryDTO)
             {
-                log.info("分页查询数据：{}",setmealPageQueryDTO);
-                PageResult page =setmealService.page(setmealPageQueryDTO);
+                log.info("分页查询数据：{}", setmealPageQueryDTO);
+                PageResult page = setmealService.page(setmealPageQueryDTO);
                 return Result.success(page);
+            }
+        
+        @PostMapping("/status/{status}")
+        public Result startOrStop(@PathVariable Integer status, long id)
+            {
+                log.info("修改后的状态：{}，要修改的套餐id：{}", (status == 1 ? "起售" : "停售"), id);
+                
+                setmealService.startOrStop(status,id);
+                return Result.success();
             }
     }

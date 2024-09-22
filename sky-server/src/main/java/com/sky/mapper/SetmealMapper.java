@@ -62,4 +62,21 @@ public interface SetmealMapper {
      * @return {@link List }<{@link SetmealVO }>
      */
     Page<SetmealVO> page(SetmealPageQueryDTO setmealPageQueryDTO);
+    
+    /**
+     * 按 ID 获取 SetMeal
+     *
+     * @param id 套餐id
+     * @return {@link Setmeal }
+     */
+    @Select("select * from setmeal where id = #{id}")
+    Setmeal getSetmealById(Long id);
+    
+    /**
+     * 修改套餐信息
+     *
+     * @param setmeal 套餐
+     */
+    @AutoFill(OperationType.UPDATE)
+    void update(Setmeal setmeal);
 }

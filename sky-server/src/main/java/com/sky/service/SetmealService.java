@@ -47,4 +47,12 @@ public interface SetmealService
          * @return {@link Page }<{@link SetmealVO }>
          */
         PageResult page(SetmealPageQueryDTO setmealPageQueryDTO);
+        
+        /**
+         * 开始或停止
+         *
+         * @param status 售卖状态
+         * @param id     套餐id
+         */
+        void startOrStop(Integer status, long id);
     }
