@@ -69,7 +69,9 @@ public interface SetmealMapper {
      * @param id 套餐id
      * @return {@link Setmeal }
      */
-    @Select("select * from setmeal where id = #{id}")
+    @Select("select id, category_id, name, price, status, description, image, " +
+            "create_time, update_time, create_user, update_user from setmeal " +
+            "where id = #{id}")
     Setmeal getSetmealById(Long id);
     
     /**

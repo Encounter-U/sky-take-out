@@ -55,4 +55,12 @@ public interface SetmealService
          * @param id     套餐id
          */
         void startOrStop(Integer status, long id);
+        
+        /**
+         * 按 ID 获取套餐
+         *
+         * @param id 套餐id
+         * @return {@link SetmealVO }
+         */
+        SetmealVO getById(long id);
     }

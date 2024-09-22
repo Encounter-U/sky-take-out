@@ -73,17 +73,18 @@ public class SetmealServiceImpl implements SetmealService
                 BeanUtils.copyProperties(setmealDTO, setmeal);
                 //更改起售状态，默认停售
                 setmeal.setStatus(StatusConstant.DISABLE);
-                log.info("添加套餐开始，{}",setmeal);
+                log.info("添加套餐开始，{}", setmeal);
                 setmealMapper.save(setmeal);
                 
+                //传进来的setmealId为null，重新获取setmealId并赋值
+                Long setmealId = setmeal.getId();
+                log.info("steamId:{}", setmealId);
                 List<SetmealDish> setmealDishes = setmealDTO.getSetmealDishes();
-                if (setmealDishes != null && !setmealDishes.isEmpty())
+                for (SetmealDish setmealDish : setmealDishes)
                     {
-                        for (SetmealDish setmealDish : setmealDishes)
-                            {
-                                log.info("添加套餐菜品关系开始,{}",setmealDish);
-                                setmealDishMapper.save(setmealDish);
-                            }
+                        setmealDish.setSetmealId(setmealId);
+                        log.info("添加套餐菜品关系开始,{}", setmealDish);
+                        setmealDishMapper.save(setmealDish);
                     }
             }
         
@@ -100,7 +101,7 @@ public class SetmealServiceImpl implements SetmealService
                 PageHelper.startPage(setmealPageQueryDTO.getPage(), setmealPageQueryDTO.getPageSize());
                 
                 Page<SetmealVO> page = setmealMapper.page(setmealPageQueryDTO);
-                log.info("page:{}",page);
+                log.info("page:{}", page);
                 log.info("total:{}", page.getTotal());
                 log.info("page:{}", page.getPages());
                 return new PageResult(page.getTotal(), page.getResult());
@@ -118,6 +119,27 @@ public class SetmealServiceImpl implements SetmealService
                 Setmeal setmeal = setmealMapper.getSetmealById(id);
                 setmeal.setStatus(status);
                 setmealMapper.update(setmeal);
+            }
+        
+        /**
+         * 按 ID 获取套餐
+         *
+         * @param id 套餐id
+         * @return {@link SetmealVO }
+         */
+        @Override
+        public SetmealVO getById(long id)
+            {
+                //根据id查询setmeal信息
+                Setmeal setmeal = setmealMapper.getSetmealById(id);
+                
+                //将setmeal的属性赋到setmealVO中
+                SetmealVO setmealVO = new SetmealVO();
+                BeanUtils.copyProperties(setmeal, setmealVO);
+                
+                //将菜品与套餐关系存入
+                setmealVO.setSetmealDishes(setmealDishMapper.getSetmealDishesBySetmealId(id));
+                return setmealVO;
             }
         
         

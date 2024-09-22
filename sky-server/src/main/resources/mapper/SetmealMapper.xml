@@ -25,7 +25,7 @@
         </where>
     </select>
 
-    <insert id="save">
+    <insert id="save" useGeneratedKeys="true" keyProperty="id">
         insert into setmeal(category_id, name, price, status,
         <if test="description != null and description != ''">
             description,
