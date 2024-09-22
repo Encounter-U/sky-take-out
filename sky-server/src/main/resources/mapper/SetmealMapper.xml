@@ -97,4 +97,12 @@
         </set>
         where id = #{id}
     </update>
+
+    <delete id="deleteBatch">
+        delete
+        from setmeal where id in
+        <foreach collection="collection" separator="," item="id" open="(" close=")">
+            #{id}
+        </foreach>
+    </delete>
 </mapper>

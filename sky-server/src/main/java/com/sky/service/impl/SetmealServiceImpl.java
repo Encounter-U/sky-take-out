@@ -176,5 +176,16 @@ public class SetmealServiceImpl implements SetmealService
                 setmealDishMapper.insertBatch(setmealDishes);
             }
         
+        /**
+         * 根据id删除批处理
+         *
+         * @param ids IDS
+         */
+        @Override
+        public void deleteBatch(List<Long> ids)
+            {
+                setmealMapper.deleteBatch(ids);
+            }
+        
         
     }

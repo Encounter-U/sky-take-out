@@ -122,9 +122,6 @@ public class DishController
                 return Result.success();
             }
         
-        //TODO Encounter 2024/09/21 20:23 服务端菜品起售停售，暂未开发（根据id分类查询菜品）
-        
-        
         /**
          * 清理缓存
          *
@@ -137,7 +134,14 @@ public class DishController
                 redisTemplate.delete(keys);
             }
         
+        /**
+         * 根据分类id查询当前分类下菜品
+         *
+         * @param categoryId 类别 ID
+         * @return {@link Result }<{@link List }<{@link DishVO }>>
+         */
         @GetMapping("/list")
+        @ApiOperation("根据分类id查询当前分类下菜品")
         public Result<List<DishVO>> list(@RequestParam Long categoryId)
             {
                 log.info("要查询的套餐id：{}", categoryId.toString());

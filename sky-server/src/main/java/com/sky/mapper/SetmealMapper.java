@@ -81,4 +81,11 @@ public interface SetmealMapper {
      */
     @AutoFill(OperationType.UPDATE)
     void update(Setmeal setmeal);
+    
+    /**
+     * 根据id删除批处理
+     *
+     * @param ids IDS
+     */
+    void deleteBatch(List<Long> ids);
 }

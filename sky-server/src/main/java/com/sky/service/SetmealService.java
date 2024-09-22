@@ -70,4 +70,11 @@ public interface SetmealService
          * @param setmealDTO Setmeal DTO
          */
         void update(SetmealDTO setmealDTO);
+        
+        /**
+         * 根据id删除批处理
+         *
+         * @param ids IDS
+         */
+        void deleteBatch(List<Long> ids);
     }
