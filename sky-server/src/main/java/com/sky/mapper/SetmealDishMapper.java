@@ -37,4 +37,18 @@ public interface SetmealDishMapper
         @Select("select id, setmeal_id, dish_id, name, price, copies from setmeal_dish " +
                 "where setmeal_id = #{setmealId}")
         List<SetmealDish> getSetmealDishesBySetmealId(long setmealId);
+        
+        /**
+         * 根据id批量删除套餐菜品关系
+         *
+         * @param ids IDS
+         */
+        void delete(List<Long> ids);
+        
+        /**
+         * 批量插入套餐菜品关系信息
+         *
+         * @param setmealDishes 套餐菜品关系信息
+         */
+        void insertBatch(List<SetmealDish> setmealDishes);
     }

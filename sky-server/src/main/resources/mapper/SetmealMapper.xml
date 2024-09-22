@@ -71,7 +71,7 @@
         </where>
     </select>
 
-    <update id="update">
+    <update id="update" useGeneratedKeys="true" keyProperty="id">
         update setmeal
         <set>
             <if test="categoryId != null">

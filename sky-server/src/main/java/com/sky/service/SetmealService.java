@@ -63,4 +63,11 @@ public interface SetmealService
          * @return {@link SetmealVO }
          */
         SetmealVO getById(long id);
+        
+        /**
+         * 修改setmeal信息
+         *
+         * @param setmealDTO Setmeal DTO
+         */
+        void update(SetmealDTO setmealDTO);
     }

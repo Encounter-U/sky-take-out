@@ -29,4 +29,19 @@
         </if>
         #{copies})
     </insert>
+
+    <delete id="delete">
+        delete from setmeal_dish where id in
+        <foreach collection="collection" item="id" separator="," open="(" close=")">
+        #{id}
+        </foreach>
+    </delete>
+
+    <insert id="insertBatch">
+        insert into setmeal_dish(setmeal_id, dish_id, name, price, copies)
+        values
+        <foreach collection="collection" item="sd" separator=",">
+            (#{sd.setmealId}, #{sd.dishId}, #{sd.name}, #{sd.price}, #{sd.copies})
+        </foreach>
+    </insert>
 </mapper>
