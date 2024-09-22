@@ -1,5 +1,6 @@
 package com.sky.service;
 
+import com.sky.dto.SetmealDTO;
 import com.sky.entity.Setmeal;
 import com.sky.vo.DishItemVO;
 
@@ -27,5 +28,12 @@ public interface SetmealService
          * @return {@link List }<{@link DishItemVO }>
          */
         List<DishItemVO> getDishItemById(Long id);
+        
+        /**
+         * 新增菜品
+         *
+         * @param setmealDTO Setmeal DTO
+         */
+        void save(SetmealDTO setmealDTO);
         
     }

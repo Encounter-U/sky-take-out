@@ -78,4 +78,16 @@ public interface DishMapper
                 "create_time, update_time, create_user, update_user from dish " +
                 "where category_id = #{categoryId} and status = #{status}")
         List<Dish> list(Dish dish);
+        
+        
+        /**
+         * 根据套餐分类id查询菜品
+         *
+         * @param categoryId 套餐类别 ID
+         * @return
+         */
+        @Select("select id, name, category_id, price, image, description, status, " +
+                "create_time, update_time, create_user, update_user from dish " +
+                "where category_id = #{categoryId}")
+        List<Dish> listByCategoryId(Long categoryId);
     }

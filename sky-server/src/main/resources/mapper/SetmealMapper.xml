@@ -24,4 +24,24 @@
             </if>
         </where>
     </select>
+
+    <insert id="save">
+        insert into setmeal(category_id, name, price, status,
+        <if test="description != null and description != ''">
+            description,
+        </if>
+        image, create_time, update_time, create_user, update_user)
+        values (category_id = #{categoryId},
+                name = #{name},
+                price = #{price},
+                status = #{status},
+        <if test="description != null and description != ''">
+            description = #{description},
+        </if>
+        image = #{image},
+        create_time = #{createTime},
+        update_time = #{updateTime},
+        create_user = #{createUser},
+        update_user = #{updateUser})
+    </insert>
 </mapper>

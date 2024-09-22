@@ -136,4 +136,12 @@ public class DishController
                 Set keys = redisTemplate.keys(pattern);
                 redisTemplate.delete(keys);
             }
+        
+        @GetMapping("/list")
+        public Result<List<DishVO>> list(@RequestParam Long categoryId)
+            {
+                log.info("要查询的套餐id：{}", categoryId.toString());
+                List<DishVO> dishVO = dishService.getByCategoryId(categoryId);
+                return Result.success(dishVO);
+            }
     }

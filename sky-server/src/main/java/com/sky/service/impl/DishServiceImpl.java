@@ -33,6 +33,7 @@ import java.util.Objects;
  */
 @Service
 public class DishServiceImpl implements DishService
+    
     {
         private static final Logger log = LoggerFactory.getLogger(DishServiceImpl.class);
         @Autowired
@@ -191,4 +192,30 @@ public class DishServiceImpl implements DishService
             
             return dishVOList;
         }
+        
+        
+        /**
+         * 根据套餐分类id查询菜品
+         *
+         * @param categoryId 套餐类别 ID
+         * @return {@link DishVO }
+         */
+        @Override
+        public List<DishVO> getByCategoryId(Long categoryId)
+            {
+                //根据套餐id查询到相关菜品集合
+                List<Dish> dishes=dishMapper.listByCategoryId(categoryId);
+                
+                //将相关菜品集合及其口味存入dishVOList中
+                List<DishVO> dishVOList = new ArrayList<>();
+                for (Dish dish : dishes)
+                    {
+                        DishVO dishVO = new DishVO();
+                        BeanUtils.copyProperties(dish, dishVO);
+                        //获取当前菜品口味信息并存入dishVO
+                        dishVO.setFlavors(dishFlavorMapper.getByDishId(dishVO.getId()));
+                        dishVOList.add(dishVO);
+                    }
+                return dishVOList;
+            }
     }
