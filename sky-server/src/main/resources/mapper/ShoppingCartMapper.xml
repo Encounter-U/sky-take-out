@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- 
+    Created by IntelliJ IDEA.
+    User: Encounter
+    Date: 2024/09/23
+    Time: 21:51
+    To change this template use File | Settings | File Templates.
+-->
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.sky.mapper.ShoppingCartMapper">
+    <select id="list" resultType="com.sky.entity.ShoppingCart">
+        select *
+        from shopping_cart
+        <where>
+            <if test="userId != null">
+                user_id = #{userId}
+            </if>
+            <if test="setmealId != null">
+                and setmeal_id = #{setmealId}
+            </if>
+            <if test="dishId != null">
+                and dish_id = #{dishId}
+            </if>
+            <if test="dishFlavor != null and dishFlavor != ''">
+                and dish_flavor = #{dishFlavor}
+            </if>
+        </where>
+    </select>
+</mapper>
