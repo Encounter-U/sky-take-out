@@ -40,4 +40,11 @@ public interface ShoppingCartMapper
                 "values(#{name},#{image},#{userId},#{dishId},#{setmealId}," +
                 "#{dishFlavor},#{number},#{amount},#{createTime}) ")
         void insert(ShoppingCart shoppingCart);
+        
+        /**
+         * 动态删除购物车中商品
+         *
+         * @param ids 要删除的id集合
+         */
+        void delete(List<Long> ids);
     }

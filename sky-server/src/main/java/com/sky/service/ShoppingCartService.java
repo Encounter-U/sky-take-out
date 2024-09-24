@@ -24,4 +24,11 @@ public interface ShoppingCartService
          * @return {@link List }<{@link ShoppingCart }>
          */
         List<ShoppingCart> list();
+        
+        /**
+         * 删除购物车中一个商品
+         *
+         * @param shoppingCartDTO 购物车 DTO
+         */
+        void sub(ShoppingCartDTO shoppingCartDTO);
     }

@@ -27,4 +27,12 @@
             </if>
         </where>
     </select>
+
+    <delete id="delete">
+        delete
+        from shopping_cart where id in
+        <foreach collection="collection" item="id" separator="," open="(" close=")">
+            #{id}
+        </foreach>
+    </delete>
 </mapper>
