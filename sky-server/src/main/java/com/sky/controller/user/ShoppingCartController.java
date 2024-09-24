@@ -1,5 +1,6 @@
 package com.sky.controller.user;
 
+import com.sky.context.BaseContext;
 import com.sky.dto.ShoppingCartDTO;
 import com.sky.entity.ShoppingCart;
 import com.sky.result.Result;
@@ -66,6 +67,20 @@ public class ShoppingCartController
             {
                 log.info("要操作的购物车商品：{}", shoppingCartDTO);
                 shoppingCartService.sub(shoppingCartDTO);
+                return Result.success();
+            }
+        
+        /**
+         * 清空当前用户的购物车
+         *
+         * @return {@link Result }
+         */
+        @DeleteMapping("/clean")
+        @ApiOperation("清空当前用户购物车")
+        public Result clean()
+            {
+                log.info("清空当前用户的购物车，当前用户id：{}", BaseContext.getCurrentId());
+                shoppingCartService.clean();
                 return Result.success();
             }
     }

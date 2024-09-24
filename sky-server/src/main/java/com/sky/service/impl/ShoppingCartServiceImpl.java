@@ -135,4 +135,13 @@ public class ShoppingCartServiceImpl implements ShoppingCartService
                         shoppingCartMapper.updateNumberById(cart);
                     }
             }
+        
+        /**
+         * 清空当前用户的购物车
+         */
+        @Override
+        public void clean()
+            {
+                shoppingCartMapper.deleteByUserId(BaseContext.getCurrentId());
+            }
     }

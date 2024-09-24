@@ -31,4 +31,9 @@ public interface ShoppingCartService
          * @param shoppingCartDTO 购物车 DTO
          */
         void sub(ShoppingCartDTO shoppingCartDTO);
+        
+        /**
+         * 清空当前用户的购物车
+         */
+        void clean();
     }
