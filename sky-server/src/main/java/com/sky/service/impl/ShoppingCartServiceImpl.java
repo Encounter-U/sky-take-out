@@ -91,4 +91,15 @@ public class ShoppingCartServiceImpl implements ShoppingCartService
                 shoppingCart.setNumber(1);//初始数量为1
                 shoppingCartMapper.insert(shoppingCart);
             }
+        
+        /**
+         * 查询全部购物车
+         *
+         * @return {@link List }<{@link ShoppingCart }>
+         */
+        @Override
+        public List<ShoppingCart> list()
+            {
+                return shoppingCartMapper.list(ShoppingCart.builder().userId(BaseContext.getCurrentId()).build());
+            }
     }
