@@ -113,7 +113,6 @@ public class OrderServiceImpl implements OrderService
             {
                 // 当前登录用户id
                 Long userId = BaseContext.getCurrentId();
-                //TODO Encounter 2024/09/24 20:59 当前登录用户id，新增方法，无法验证是否正确
                 User user = userMapper.getById(userId);
                 
                 //调用微信支付接口，生成预支付交易单
