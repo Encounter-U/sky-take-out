@@ -34,4 +34,11 @@ public interface OrderService
          * @param outTradeNo 交易编号
          */
         void paySuccess(String outTradeNo);
+        
+        /**
+         * 客户催单
+         *
+         * @param id 催单的订单号
+         */
+        void reminder(Long id);
     }

@@ -172,4 +172,28 @@ public class OrderServiceImpl implements OrderService
                 String jsonString = JSON.toJSONString(map);
                 webSocketServer.sendToAllClient(jsonString);
             }
+        
+        /**
+         * 客户催单
+         *
+         * @param id 催单的订单号
+         */
+        @Override
+        public void reminder(Long id)
+            {
+                //根据id查询订单
+                Orders ordersDB = orderMapper.getById(id);
+                
+                //校验订单是否存在
+                if (ordersDB == null)
+                    throw new OrderBusinessException(MessageConstant.ORDER_NOT_FOUND);
+                
+                Map<Object, Object> map = new HashMap<>();
+                map.put("type", 2);
+                map.put("orderId", ordersDB.getId());
+                String jsonString = JSON.toJSONString(map);
+                
+                //通过websocket向客户端浏览器推送消息
+                webSocketServer.sendToAllClient(jsonString);
+            }
     }
