@@ -61,7 +61,7 @@ public class OrderController
         public Result reminder(@PathVariable Long id)
             {
                 log.info("客户催单的订单号：{}",id);
-                orderService.reminder(id)
+                orderService.reminder(id);
                 return Result.success();
             }
     }
