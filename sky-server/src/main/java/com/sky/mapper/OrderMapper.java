@@ -6,6 +6,7 @@ import org.apache.ibatis.annotations.Select;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author Encounter
@@ -56,4 +57,11 @@ public interface OrderMapper
          */
         @Select("select * from orders where id = #{id}")
         Orders getById(Long id);
+        
+        /**
+         * 根据动态条件统计营业额数据
+         * @param map Map集合封装了开始结束时间及状态
+         * @return {@link Object }
+         */
+        Double sumByMap(Map<Object, Object> map);
     }
