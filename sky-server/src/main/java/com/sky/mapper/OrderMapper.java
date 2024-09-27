@@ -64,4 +64,11 @@ public interface OrderMapper
          * @return {@link Object }
          */
         Double sumByMap(Map<Object, Object> map);
+        
+        /**
+         * 动态查询订单数
+         *
+         * @param map Map集合封装查询条件
+         */
+        Integer countByMap(Map<Object, Object> map);
     }

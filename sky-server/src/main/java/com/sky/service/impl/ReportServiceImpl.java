@@ -4,12 +4,15 @@ import com.sky.entity.Orders;
 import com.sky.mapper.OrderMapper;
 import com.sky.mapper.UserMapper;
 import com.sky.service.ReportService;
+import com.sky.vo.OrderReportVO;
 import com.sky.vo.TurnoverReportVO;
 import com.sky.vo.UserReportVO;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -23,6 +26,7 @@ import java.util.Map;
  * @date 2024/09/25 20:40<br/>
  */
 @Service
+@Slf4j
 public class ReportServiceImpl implements ReportService
     {
         @Autowired
@@ -68,14 +72,7 @@ public class ReportServiceImpl implements ReportService
                 for (LocalDate date : dateList)
                     {
                         //查询date日期对应的营业额数据，营业额是指状态为“已完成”的订单金额合计
-                        LocalDateTime beginTime = LocalDateTime.of(date, LocalTime.MIN);
-                        LocalDateTime endTime = LocalDateTime.of(date, LocalTime.MAX);
-                        
-                        Map<Object, Object> map = new HashMap<>();
-                        map.put("beginTime", beginTime);
-                        map.put("endTime", endTime);
-                        map.put("status", Orders.COMPLETED);
-                        Double turnover = orderMapper.sumByMap(map);//若没有营业额返回为null
+                        Double turnover = orderMapper.sumByMap(getConditionsMap(date, Orders.COMPLETED));//若没有营业额返回为null
                         turnover = turnover == null ? 0 : turnover;//将null重新赋值为0
                         turnoverList.add(turnover);
                     }
@@ -126,9 +123,84 @@ public class ReportServiceImpl implements ReportService
                 
                 //封装返回数据
                 return UserReportVO.builder()
-                        .dateList(StringUtils.join(dateList,","))
-                        .totalUserList(StringUtils.join(totalUserList,","))
-                        .newUserList(StringUtils.join(newUserList,","))
+                        .dateList(StringUtils.join(dateList, ","))
+                        .totalUserList(StringUtils.join(totalUserList, ","))
+                        .newUserList(StringUtils.join(newUserList, ","))
                         .build();
+            }
+        
+        /**
+         * 获取订单统计数据
+         *
+         * @param begin 开始
+         * @param end   结束
+         * @return {@link OrderReportVO }
+         */
+        @Override
+        public OrderReportVO getOrdersStatistics(LocalDate begin, LocalDate end)
+            {
+                //获取dateList
+                List<LocalDate> dateList = getDateList(begin, end);
+                
+                //存放每天的订单总数
+                List<Integer> orderCountList = new ArrayList<>();
+                //存放每天的有效订单数
+                List<Integer> validOrderCountList = new ArrayList<>();
+                //总订单数
+                Integer totalOrderCount = 0;
+                //总有效订单数
+                Integer validOrderCount = 0;
+                
+                //遍历dateList集合，查询每天的有效订单数和订单总数
+                for (LocalDate date : dateList)
+                    {
+                        //查询每天的订单总数，无需status，直接传入null即可
+                        Integer orderCount = orderMapper.countByMap(getConditionsMap(date, null));
+                        totalOrderCount += orderCount;
+                        
+                        //查询每天的有效订单数
+                        Integer validOrder = orderMapper.countByMap(getConditionsMap(date, Orders.COMPLETED));
+                        validOrderCount += validOrder;
+                        
+                        //存入数据
+                        orderCountList.add(orderCount);
+                        validOrderCountList.add(validOrder);
+                    }
+                
+                //避免除数出现0，先赋上初始值
+                BigDecimal orderCompletionRate = new BigDecimal("0.0");
+                BigDecimal totalOrder = new BigDecimal(totalOrderCount);
+                BigDecimal validOrder = new BigDecimal(validOrderCount);
+                if (totalOrderCount != 0)
+                    orderCompletionRate = validOrder.divide(totalOrder, 2, BigDecimal.ROUND_HALF_UP);
+                //log.info("订单完成率：{}", orderCompletionRate.doubleValue());
+                
+                //封装并返回数据
+                return OrderReportVO.builder()
+                        .dateList(StringUtils.join(dateList, ","))
+                        .orderCountList(StringUtils.join(orderCountList, ","))
+                        .validOrderCountList(StringUtils.join(validOrderCountList, ","))
+                        .totalOrderCount(totalOrderCount)
+                        .validOrderCount(validOrderCount)
+                        .orderCompletionRate(orderCompletionRate.doubleValue())
+                        .build();
+            }
+        
+        /**
+         * 获取动态查询订单时的条件的map集合
+         *
+         * @param date   要查询的日期日期
+         * @param status 订单状态
+         * @return {@link Map }<{@link Object },{@link Object }>
+         */
+        private Map<Object, Object> getConditionsMap(LocalDate date, Integer status)
+            {
+                LocalDateTime beginTime = LocalDateTime.of(date, LocalTime.MIN);
+                LocalDateTime endTime = LocalDateTime.of(date, LocalTime.MAX);
+                Map<Object, Object> map = new HashMap<>();
+                map.put("begin", beginTime);
+                map.put("end", endTime);
+                map.put("status", status);
+                return map;
             }
     }
