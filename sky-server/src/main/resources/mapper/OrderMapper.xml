@@ -68,7 +68,8 @@
     </select>
 
     <select id="countByMap" resultType="java.lang.Integer">
-        select count(id) from orders
+        select count(id)
+        from orders
         <where>
             <if test="begin != null">
                 and order_time &gt; #{begin}
@@ -80,5 +81,24 @@
                 and status = #{status}
             </if>
         </where>
+    </select>
+
+    <select id="getSalesTop10" resultType="com.sky.dto.GoodsSalesDTO">
+        select od.name, sum(od.number) number
+        from orders o,
+             order_detail od
+        <where>
+            od.order_id = o.id
+              and o.status = 5
+            <if test="param1 != null">
+                and o.order_time &gt; #{param1}
+            </if>
+            <if test="param2 != null">
+                and o.order_time &lt; #{param2}
+            </if>
+        </where>
+        group by od.name
+        order by number desc
+        limit 0,10
     </select>
 </mapper>
