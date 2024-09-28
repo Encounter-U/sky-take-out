@@ -36,9 +36,10 @@
     </select>
 
     <delete id="deleteBatch">
-        delete from dish where id in
+        delete
+        from dish where id in
         <foreach item="id" collection="collection" open="(" separator="," close=")">
-        #{id}
+            #{id}
         </foreach>
     </delete>
 
@@ -73,4 +74,46 @@
         where id = #{id}
     </update>
 
+    <select id="listWithFlavor" parameterType="Dish" resultMap="dishAndFlavorMap">
+        select a.*,
+               b.name dfName,
+               b.value
+        from dish a
+                 left join
+             dish_flavor b
+             on
+                 a.id = b.dish_id
+        <where>
+            <if test="name != null">
+                and a.name like concat('%', #{name}, '%')
+            </if>
+            <if test="categoryId != null">
+                and category_id = #{categoryId}
+            </if>
+            <if test="status != null">
+                and status = #{status}
+            </if>
+        </where>
+    </select>
+
+    <select id="countByMap" resultType="java.lang.Integer">
+        select count(id)
+        from dish
+        <where>
+            <if test="status != null">
+                and status = #{status}
+            </if>
+            <if test="categoryId != null">
+                and category_id = #{categoryId}
+            </if>
+        </where>
+    </select>
+
+    <resultMap id="dishAndFlavorMap" type="com.sky.vo.DishVO" autoMapping="true">
+        <id column="id" property="id"/>
+        <collection property="flavors" ofType="DishFlavor">
+            <result column="dfName" property="name"/>
+            <result column="value" property="value"/>
+        </collection>
+    </resultMap>
 </mapper>

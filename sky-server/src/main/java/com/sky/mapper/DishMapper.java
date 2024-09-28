@@ -10,6 +10,7 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author Encounter
@@ -90,4 +91,20 @@ public interface DishMapper
                 "create_time, update_time, create_user, update_user from dish " +
                 "where category_id = #{categoryId}")
         List<Dish> listByCategoryId(Long categoryId);
+        
+        /**
+         * 动态条件查询菜品和口味
+         *
+         * @param dish 菜
+         * @return {@link List }<{@link DishVO }>
+         */
+        List<DishVO> listWithFlavor(Dish dish);
+        
+        /**
+         * 根据条件统计菜品数量
+         *
+         * @param map Map集合封装查询条件
+         * @return {@link Integer }
+         */
+        Integer countByMap(Map map);
     }

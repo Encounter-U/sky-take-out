@@ -11,6 +11,7 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author Encounter
@@ -88,4 +89,12 @@ public interface SetmealMapper {
      * @param ids IDS
      */
     void deleteBatch(List<Long> ids);
+    
+    /**
+     * 根据条件统计套餐数量
+     *
+     * @param map Map集合封装查询条件
+     * @return {@link Integer }
+     */
+    Integer countByMap(Map<Object,Object> map);
 }
