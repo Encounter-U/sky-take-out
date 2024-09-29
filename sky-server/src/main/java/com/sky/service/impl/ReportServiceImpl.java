@@ -5,15 +5,20 @@ import com.sky.entity.Orders;
 import com.sky.mapper.OrderMapper;
 import com.sky.mapper.UserMapper;
 import com.sky.service.ReportService;
-import com.sky.vo.OrderReportVO;
-import com.sky.vo.SalesTop10ReportVO;
-import com.sky.vo.TurnoverReportVO;
-import com.sky.vo.UserReportVO;
+import com.sky.service.WorkSpaceService;
+import com.sky.vo.*;
+import jakarta.servlet.ServletOutputStream;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
+import org.apache.poi.xssf.usermodel.XSSFRow;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -36,6 +41,9 @@ public class ReportServiceImpl implements ReportService
         
         @Autowired
         private UserMapper userMapper;
+        
+        @Autowired
+        private WorkSpaceService workSpaceService;
         
         /**
          * 获取日期列表
@@ -214,6 +222,76 @@ public class ReportServiceImpl implements ReportService
                         .nameList(StringUtils.join(names, ","))
                         .numberList(StringUtils.join(numbers, ","))
                         .build();
+            }
+        
+        /**
+         * 导出业务数据
+         *
+         * @param response 响应
+         */
+        @Override
+        public void exportBusinessData(HttpServletResponse response)
+            {
+                //1.查询数据库，获取营业数据--查询最近30天的营业数据
+                LocalDate dateBegin = LocalDate.now().minusDays(30);
+                LocalDate dateEnd = LocalDate.now().minusDays(1);
+                BusinessDataVO businessDataVO = workSpaceService.getBusinessData(LocalDateTime.of(dateBegin, LocalTime.MIN), LocalDateTime.of(dateEnd, LocalTime.MAX));
+                
+                //2.通过POI将数据写入Excel文件
+                InputStream in = this.getClass().getClassLoader().getResourceAsStream("template/运营数据报表模板.xlsx");
+                try
+                    {
+                        //基于模板文件创建一个Excel文件
+                        XSSFWorkbook excel = new XSSFWorkbook(in);
+                        
+                        //填充数据--时间
+                        XSSFSheet sheet = excel.getSheet("Sheet1");
+                        
+                        //第二行
+                        sheet.getRow(1).getCell(1).setCellValue("报表时间从 " + dateBegin + " 到 " + dateEnd + " ");
+                        
+                        //第四行
+                        XSSFRow row = sheet.getRow(3);
+                        row.getCell(2).setCellValue(businessDataVO.getTurnover());
+                        row.getCell(4).setCellValue(businessDataVO.getOrderCompletionRate());
+                        row.getCell(6).setCellValue(businessDataVO.getNewUsers());
+                        
+                        //第五行
+                        row = sheet.getRow(5);
+                        row.getCell(2).setCellValue(businessDataVO.getValidOrderCount());
+                        row.getCell(4).setCellValue(businessDataVO.getUnitPrice());
+                        
+                        //填充明细数据
+                        for (int i = 0; i < 30; i++)
+                            {
+                                LocalDate date = dateBegin.plusDays(i);
+                                BusinessDataVO businessDataVO1 = workSpaceService.getBusinessData(LocalDateTime.of(date, LocalTime.MIN), LocalDateTime.of(date, LocalTime.MAX));
+                                
+                                row = sheet.getRow(i + 7);
+                                row.getCell(1).setCellValue(date.toString());
+                                row.getCell(2).setCellValue(businessDataVO1.getTurnover());
+                                row.getCell(3).setCellValue(businessDataVO1.getValidOrderCount());
+                                row.getCell(4).setCellValue(businessDataVO1.getOrderCompletionRate());
+                                row.getCell(5).setCellValue(businessDataVO1.getUnitPrice());
+                                row.getCell(6).setCellValue(businessDataVO1.getNewUsers());
+                                
+                                
+                            }
+                        
+                        //3.通过输出流将Excel文件下载到客户端浏览器
+                        ServletOutputStream out = response.getOutputStream();
+                        excel.write(out);
+                        
+                        //4.关闭资源
+                        out.close();
+                        excel.close();
+                    }
+                catch (IOException e)
+                    {
+                        throw new RuntimeException(e);
+                    }
+                
+                
             }
         
         /**
