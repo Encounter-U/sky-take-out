@@ -101,4 +101,29 @@ public interface OrderService
          * @param id 订单id
          */
         void complete(Long id);
+        
+        /**
+         * 用户端历史订单分页查询
+         *
+         * @param pageNum     页码
+         * @param pageSize 每页展示数量
+         * @param status   状态
+         * @return {@link PageResult }
+         */
+        PageResult pageQueryUser(int pageNum, int pageSize, Integer status);
+        
+        /**
+         * 用户取消由id
+         *
+         * @param id id
+         * @throws Exception 异常
+         */
+        void userCancelById(Long id) throws Exception;
+        
+        /**
+         * 再来一单
+         *
+         * @param id 订单id
+         */
+        void repetition(Long id);
     }
