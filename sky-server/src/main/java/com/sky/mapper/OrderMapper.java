@@ -1,6 +1,8 @@
 package com.sky.mapper;
 
+import com.github.pagehelper.Page;
 import com.sky.dto.GoodsSalesDTO;
+import com.sky.dto.OrdersPageQueryDTO;
 import com.sky.entity.Orders;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
@@ -61,6 +63,7 @@ public interface OrderMapper
         
         /**
          * 根据动态条件统计营业额数据
+         *
          * @param map Map集合封装了开始结束时间及状态
          * @return {@link Object }
          */
@@ -81,4 +84,21 @@ public interface OrderMapper
          * @return {@link List }<{@link GoodsSalesDTO }>
          */
         List<GoodsSalesDTO> getSalesTop10(LocalDateTime begin, LocalDateTime end);
+        
+        /**
+         * 动态订单页面查询
+         *
+         * @param ordersPageQueryDTO 订单页面查询 DTO
+         * @return {@link List }<{@link Orders }>
+         */
+        Page<Orders> pageQuery(OrdersPageQueryDTO ordersPageQueryDTO);
+        
+        /**
+         * 统计各种状态的订单数量
+         *
+         * @param status 订单状态
+         * @return {@link Integer }
+         */
+        @Select("select count(id) from orders where status = #{status}")
+        Integer countStatus(Integer status);
     }
